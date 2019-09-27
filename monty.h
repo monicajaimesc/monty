@@ -56,8 +56,8 @@ void pall(stack_t **last, unsigned int line_number);
 void pint(stack_t **last, unsigned int line_number);
 void pop(stack_t **last, unsigned int line_number);
 void swap(stack_t **last, unsigned int line_number);
-void add(stack_t **top, unsigned int line);
-void nop(stack_t **top, unsigned int line);
+void add(stack_t **last, unsigned int line_number);
+void nop(stack_t **last, unsigned int line_number);
 void stack(stack_t **top, unsigned int line);
 void queue(stack_t **top, unsigned int line);
 /* error handler functions */
