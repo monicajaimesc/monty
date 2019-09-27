@@ -1,39 +1,48 @@
 #include "monty.h"
 
 /**
- * main - Interpreter for Monty ByteCodes files
- * @argc: 2 (usage monty file)
- * @argv: monty file with opcodes
+ * main - Interpreter for monty files
+ * @argc: will be given for the stack and queue
+ * @argv: pointer to the structure
  * Return: void
  */
 int main(int argc, char *argv[])
 {
-	stack_t *top = NULL, *current = NULL;
-	FILE *fp;
 	char *buff = NULL, *token1 = NULL, *token2 = NULL;
 	size_t bytes = 1024;
 	unsigned int line_count = 1;
+	stack_t *top = NULL, *current = NULL;
+	FILE *fp;
 
 	is_stack = 1;
+	/* different of 2 because to be able to execute the program */
 	if (argc != 2)
-		usage_err();
+		usage_error();
+	/* r - open for reading */
+	/* open monty_file.m */
 	fp = fopen(argv[1], "r");
 	if (!fp)
-		open_err(argv[1]);
+		open_error(argv[1]);
+		/*EOF end of a file */
 	while (getline(&buff, &bytes, fp) != EOF)
 	{
 		token1 = strtok(buff, " \n");
+		/* \n because is one argument in one line */
+		/* There can be any number of spaces before-after the opcode and argument*/
 		token2 = strtok(NULL, " \n");
+		/* Just need to read the arguments*/
 		if (!token1 || token1[0] == '#')
 		{
 			line_count++;
 			continue;
 		}
 		execute_opcode(token1, &top, line_count);
-		if (strcmp(token1, "push") == 0)
+/* Executes the opcode, filling the stack*/ 
+/* opcode is the first byte of an instruction in machine language*/
+		if (strcmp(token1, "push") == 0) /* if the comparation happen because is 0*/
 		{
 			if (token2 == NULL || is_a_number(token2) == -1)
-				push_err(line_count);
+				push_error(line_count);
 			if (is_stack == 1)
 				top->n = atoi(token2);
 			else
@@ -68,27 +77,19 @@ void execute_opcode(char *token, stack_t **top, unsigned int line)
 		{"swap", swap},
 		{"add", add},
 		{"nop", nop},
-		{"sub", sub},
-		{"div", div1},
-		{"mul", mul},
-		{"mod", mod},
-		{"pchar", pchar},
-		{"pstr", pstr},
-		{"rotl", rotl},
-		{"rotr", rotr},
 		{"stack", stack},
 		{"queue", queue}
 	};
 	len = (int)(sizeof(opcodes) / sizeof(instruction_t));
 	for (i = 0; i < len; i++)
 	{
-		if (strcmp(token, opcodes[i].opcode) == 0)
+		if (strcmp(token, opcodes[i].opcode) == 0) /* compare */
 		{
-			opcodes[i].f(top, line);
-			return;
+			opcodes[i].f(top, line); /* acces to structure content to compare */
+			return; /* come back loop */
 		}
 	}
-	invalid_err(token, line);
+	invalid_error(token, line);
 }
 
 /**

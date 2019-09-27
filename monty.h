@@ -58,8 +58,8 @@ void pop(stack_t **last, unsigned int line_number);
 void swap(stack_t **last, unsigned int line_number);
 void add(stack_t **last, unsigned int line_number);
 void nop(stack_t **last, unsigned int line_number);
-void stack(stack_t **top, unsigned int line);
-void queue(stack_t **top, unsigned int line);
+void stack(stack_t **last, unsigned int line_number);
+void queue(stack_t **last, unsigned int line_number);
 /* error handler functions */
 void push_error(unsigned int);
 void usage_error(void);

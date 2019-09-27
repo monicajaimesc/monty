@@ -26,12 +26,12 @@ void pop_error(unsigned int line)
 }
 
 /**
- * swap_error - Error when can´t swap.
+ * swap_less_two - last 2 bytes cant swap.
  * @line: The function´s parameter
  * Return: void
  */
 
-void swap_error(unsigned int line)
+void swap_less_two(unsigned int line)
 {
 	fprintf(stderr, "L%u: can't swap, stack too short\n", line);
 	exit(EXIT_FAILURE);

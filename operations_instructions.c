@@ -2,8 +2,8 @@
 
 /**
  * add - Adds the top two elements of the stack
- * @top: Double pointer to the structure
- * @line: The line to be executed
+ * @last: Double pointer to the structure
+ * @line_number: The line to be executed
  * Return: void
  */
 
