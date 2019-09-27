@@ -16,10 +16,10 @@ int main(int argc, char *argv[])
 
 	is_stack = 1;
 	if (argc != 2)
-		usage_err();
+		usage_error();
 	fp = fopen(argv[1], "r");
 	if (!fp)
-		open_err(argv[1]);
+		open_error(argv[1]);
 	while (getline(&buff, &bytes, fp) != EOF)
 	{
 		token1 = strtok(buff, " \n");
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 		if (strcmp(token1, "push") == 0)
 		{
 			if (token2 == NULL || is_a_number(token2) == -1)
-				push_err(line_count);
+				push_error(line_count);
 			if (is_stack == 1)
 				top->n = atoi(token2);
 			else
@@ -68,14 +68,6 @@ void execute_opcode(char *token, stack_t **top, unsigned int line)
 		{"swap", swap},
 		{"add", add},
 		{"nop", nop},
-		{"sub", sub},
-		{"div", div1},
-		{"mul", mul},
-		{"mod", mod},
-		{"pchar", pchar},
-		{"pstr", pstr},
-		{"rotl", rotl},
-		{"rotr", rotr},
 		{"stack", stack},
 		{"queue", queue}
 	};
@@ -88,7 +80,7 @@ void execute_opcode(char *token, stack_t **top, unsigned int line)
 			return;
 		}
 	}
-	invalid_err(token, line);
+	invalid_error(token, line);
 }
 
 /**
