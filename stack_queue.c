@@ -1,25 +1,25 @@
 #include "monty.h"
 /**
  * stack - sets the format of the data to a stack
- * @front: stack
- * @line: line of the instruction
- * Return: void
+ * @last: Represents the stack
+ * @line_number: Line with arguments to read
+ * Return: Nothing is a void
  */
-void stack(stack_t **front, unsigned int line)
+void stack(stack_t **last, unsigned int line_number)
 {
 	is_stack = 1;
-	(void)front;
-	(void)line;
+	(void)last;
+	(void)line_number;
 }
 /**
  * queue - sets the format of the data to a queue
- * @top: stack
- * @line: line of the instruction
- * Return: void
+ * @last: Represents the stack
+ * @line_number: Line with arguments to read
+ * Return: Nothin is a void
  */
-void queue(stack_t **top, unsigned int line)
+void queue(stack_t **last, unsigned int line_number)
 {
 	is_stack = 0;
-	(void)top;
-	(void)line;
+	(void)last;
+	(void)line_number;
 }
