@@ -1,7 +1,7 @@
 #include "monty.h"
 
 /**
- * swap_instruction - swaps 2 bytes at the stack's top
+ * swap - swaps 2 bytes at the stack's top
  *@last: last bytes of top, doubler pointer
  *@line_number: line number of the instruction
  * Return: nothing, is a void
@@ -25,8 +25,8 @@ void swap(stack_t **last, unsigned int line_number)
 }
 /**
  * pop - removes element at top
- * @top: stack
- * @line: line of the instruction
+ * @last: stack
+ * @line_number: line of the instruction
  * Return: void
  */
 void pop(stack_t **last, unsigned int line_number)
