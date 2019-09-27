@@ -26,7 +26,7 @@ void pop_error(unsigned int line)
 }
 
 /**
- * swap_error - Error when can´t swap.
+ * swap_less_two - last 2 bytes cant swap.
  * @line: The function´s parameter
  * Return: void
  */
