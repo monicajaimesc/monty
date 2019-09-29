@@ -8,11 +8,12 @@
  */
 int main(int argc, char *argv[])
 {
-	char *buff = NULL, *token1 = NULL, *token2 = NULL;
+	FILE *file_name;
+	char *buffer = NULL, *word = NULL, *empty_line = NULL;
+	unsigned int line_number = 1;
 	size_t bytes = 1024;
-	unsigned int line_count = 1;
-	stack_t *top = NULL, *current = NULL;
-	FILE *fp;
+	stack_t *last = NULL, *current = NULL;
+	
 
 	is_stack = 1;
 	/* different of 2 because to be able to execute the program */
@@ -20,42 +21,42 @@ int main(int argc, char *argv[])
 		usage_error();
 	/* r - open for reading */
 	/* open monty_file.m */
-	fp = fopen(argv[1], "r");
-	if (!fp)
+	file_name = fopen(argv[1], "r");
+	if (!file_name)
 		open_error(argv[1]);
 		/*EOF end of a file */
-	while (getline(&buff, &bytes, fp) != EOF)
+	while (getline(&buffer, &bytes, file_name) != EOF)
 	{
-		token1 = strtok(buff, " \n");
+		word = strtok(buffer, " \n");
 		/* \n because is one argument in one line */
 		/* There can be any number of spaces before-after the opcode and argument*/
-		token2 = strtok(NULL, " \n");
+		empty_line = strtok(NULL, " \n");
 		/* Just need to read the arguments*/
-		if (!token1 || token1[0] == '#')
+		if (!word || word[0] == '#')
 		{
-			line_count++;
+			line_number++;
 			continue;
 		}
-		execute_opcode(token1, &top, line_count);
-/* Executes the opcode, filling the stack*/ 
+		execute_opcode(word, &last, line_number);
+/* Executes the opcode, filling the stack*/
 /* opcode is the first byte of an instruction in machine language*/
-		if (strcmp(token1, "push") == 0) /* if the comparation happen because is 0*/
+		if (strcmp(word, "push") == 0) /* if the comparation happen because is 0*/
 		{
-			if (token2 == NULL || is_a_number(token2) == -1)
-				push_error(line_count);
+			if (empty_line == NULL || is_a_number(empty_line) == -1)
+				push_error(line_number);
 			if (is_stack == 1)
-				top->n = atoi(token2);
+				last->n = atoi(empty_line);
 			else
 			{
-				current = top;
+				current = last;
 				while (current->next)
 					current = current->next;
-				current->n = atoi(token2);
+				current->n = atoi(empty_line);
 			}
 		}
-		line_count++;
+		line_number++;
 	}
-	free_all(&top, buff, fp);
+	free_all(&last, buffer, file_name);
 	return (EXIT_SUCCESS);
 }
 /**
@@ -65,9 +66,9 @@ int main(int argc, char *argv[])
  * @line: line of the instruction
  * Return: void
  */
-void execute_opcode(char *token, stack_t **top, unsigned int line)
+void execute_opcode(char *word, stack_t **last, unsigned int line_number)
 {
-	int i, len;
+	int idx, len;
 
 	instruction_t opcodes[] = {
 		{"push", push},
@@ -81,15 +82,15 @@ void execute_opcode(char *token, stack_t **top, unsigned int line)
 		{"queue", queue}
 	};
 	len = (int)(sizeof(opcodes) / sizeof(instruction_t));
-	for (i = 0; i < len; i++)
+	for (idx = 0; idx< len; idx++)
 	{
-		if (strcmp(token, opcodes[i].opcode) == 0) /* compare */
+		if (strcmp(word, opcodes[idx].opcode) == 0) /* compare */
 		{
-			opcodes[i].f(top, line); /* acces to structure content to compare */
+			opcodes[idx].f(last, line_number); /* acces to structure content to compare */
 			return; /* come back loop */
 		}
 	}
-	invalid_error(token, line);
+	invalid_error(word, line_number);
 }
 
 /**
@@ -119,16 +120,16 @@ int is_a_number(char *s)
  * @fp: file descriptor
  * Return: void
  */
-void free_all(stack_t **top, char *buff, FILE *fp)
+void free_all(stack_t **last, char *buffer, FILE *file_name)
 {
-	stack_t *tmp = NULL;
+	stack_t *temporal = NULL;
 
-	while (*top != NULL)
+	while (*last != NULL)
 	{
-		tmp = *top;
-		*top = (*top)->next;
-		free(tmp);
+		temporal = *last;
+		*last = (*last)->next;
+		free(temporal);
 	}
-	free(buff);
-	fclose(fp);
+	free(buffer);
+	fclose(file_name);
 }
