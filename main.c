@@ -28,8 +28,7 @@ int main(int argc, char *argv[])
 	while (getline(&buffer, &bytes, file_name) != EOF)
 	{
 		word = strtok(buffer, " \n");
-		/* \n because is one argument in one line */
-		/* There can be any number of spaces before-after the opcode and argument*/
+		/* \n because is one arik3ecv ber of spaces before-after the opcode and argument*/
 		empty_line = strtok(NULL, " \n");
 		/* Just need to read the arguments*/
 		if (!word || word[0] == '#')
@@ -60,38 +59,40 @@ int main(int argc, char *argv[])
 	return (EXIT_SUCCESS);
 }
 /**
- * execute_opcode - execute the opcode found in the line
- * @token: opcode
- * @top: stack
+ * execute_opcode - select correct function to perform operation
+ * @s: operator passed as argument to the program
+ * @last: stack
  * @line: line of the instruction
  * Return: void
  */
-void execute_opcode(char *word, stack_t **last, unsigned int line_number)
+void execute_opcode(char *s, stack_t **last, unsigned int line_number)
 {
 	int idx, len;
-
+/*array of structure of op_t and it has 2 members*/
+ /*char *op and int *f (int, int)*/
 	instruction_t opcodes[] = {
-		{"push", push},
-		{"pall", pall},
-		{"pint", pint},
-		{"pop", pop},
-		{"swap", swap},
-		{"add", add},
-		{"nop", nop},
-		{"stack", stack},
-		{"queue", queue}
+/*0*/	{"push", push},
+/*1*/	{"pall", pall},
+/*2*/	{"pint", pint},
+/*3*/	{"pop", pop},
+/*4*/	{"swap", swap},
+/*5*/	{"add", add},
+/*6*/	{"nop", nop},
+/*7*/	{"stack", stack},
+/*8*/	{"queue", queue}
 	};
 	len = (int)(sizeof(opcodes) / sizeof(instruction_t));
 	for (idx = 0; idx< len; idx++)
 	{
-		if (strcmp(word, opcodes[idx].opcode) == 0) /* compare */
+		if (strcmp(s, opcodes[idx].opcode) == 0) /* compare */
 		{
 			opcodes[idx].f(last, line_number); /* acces to structure content to compare */
 			return; /* come back loop */
 		}
 	}
-	invalid_error(word, line_number);
+	invalid_error(s, line_number);
 }
+/*function that will return a pointer a una funcion que recibe dos parametros y esa funcion me retorna un int*/
 
 /**
  * is_a_number - test if a string is a number

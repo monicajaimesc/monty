@@ -42,7 +42,7 @@ typedef struct instruction_s
 } instruction_t;
 
 int is_a_number(char *s);
-void free_all(stack_t **top, char *buff, FILE *fp);
+void free_all(stack_t **last, char *buffer, FILE *file_name);
 
 void queue_push(stack_t **front);
 void queue_pop(stack_t **front, unsigned int line);
@@ -50,7 +50,7 @@ void stack_push(stack_t **last);
 void pop_instruction(stack_t **last, unsigned int line_number);
 
 /* opcode execution */
-void execute_opcode(char *token, stack_t **top, unsigned int line);
+void execute_opcode(char *s, stack_t **last, unsigned int line_number);
 void push(stack_t **last, unsigned int line_number);
 void pall(stack_t **last, unsigned int line_number);
 void pint(stack_t **last, unsigned int line_number);
